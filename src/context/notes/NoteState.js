@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import NoteContext from "./noteContext";
 
 const NoteState = (props) => {
-  const host = "http://localhost:5000";
+  const host = "https://inotebook-backend-neon.vercel.app";
 
   const notesInitial = []
 
@@ -23,25 +23,18 @@ const NoteState = (props) => {
   // Add a note
   const addNote = async (title, description, tag) => {
     const response = await fetch(`${host}/api/notes/addnote`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "auth-token": localStorage.getItem("token")
-      },
-      body: JSON.stringify({ title, description, tag })
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "auth-token": localStorage.getItem("token")
+        },
+        body: JSON.stringify({ title, description, tag })
     });
-    const note = {
-      "_id": "6a5cb6e8ba84785638b64f43",
-      "user": "6a5cb474ba84785638b64f41",
-      "title": title,
-      "description": description,
-      "tag": tag,
-      "date": "2026-07-19T11:37:12.577Z",
-      "__v": 0
-    };
+
+    const note = await response.json();
 
     setNotes(notes.concat(note));
-  };
+};
 
   // Delete a note
   const deleteNote = async (id) => {
